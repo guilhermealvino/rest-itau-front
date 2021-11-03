@@ -37,8 +37,8 @@ Output: Um boolean indicando se a senha é válida.
 
 ## Requisitos
 
-[SDK Java 11] (https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
-[IntelliJ Community] (https://www.jetbrains.com/pt-br/idea/download/#section=windows)
+- [SDK Java 11] (https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
+- [IntelliJ Community] (https://www.jetbrains.com/pt-br/idea/download/#section=windows)
 
 
 ## Tecnologias e ferramentas usadas

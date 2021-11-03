@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Contato</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <style>
+        label {
+            display: block;
+            font: .9rem 'Fira Sans', sans-serif;
+        }
+
+        input[type='submit'],
+        label {
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="responseMsgm"></div>
+    <form name="formContato" method="post" action="http://localhost:8080/senha/valid">
+        <div>
+            <label for="username">Username:</label>
+            <input type="username" id="username" name="username">
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" minlength="9" required placeholder="use at least 9 characters"/>
+        </div>
+
+        <input type="submit" value="Submit">
+
+    </form>
+</body>
+</html>
+
+<script>
+
+    $(document).ready(function () {
+        var request;
+
+        $('form').on('submit', function(e){
+            e.preventDefault();
+
+            if (request) {
+                request.abort();
+            }
+            var form = $(this);
+            var serializedData = form.serialize();
+
+            request = $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: form.attr('action'),
+                type: "post",
+                dataType: 'json',
+                data: JSON.stringify({
+                    "username": $('#username').val(),
+                    "password": $('#password').val()
+                })
+            });
+
+            // Callback handler that will be called on success
+            request.done(function (response, textStatus, jqXHR){
+                if(textStatus == 'success'){
+                    $('#responseMsgm').html(response.message);
+                }
+            });
+
+            request.error(function (xhr, textStatus, errorThrown){
+                if(textStatus == 'error'){
+                    var err = JSON.parse(xhr.responseText);
+                    $('#responseMsgm').html(err.message);
+                }
+            });
+
+            // Caso de falha, ex: tomcat nao subir
+            request.fail(function (jqXHR, textStatus, errorThrown){
+                $('#responseMsgm').val('Serviço indisponível');
+            });
+        });
+
+    });
+</script>
